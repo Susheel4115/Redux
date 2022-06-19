@@ -27,10 +27,10 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   item: state.products.item,
   loading: state.products.loading,
-  error: state.products.error
+  error: state.products.error,
 });
 
 export default connect(mapStateToProps)(Main);

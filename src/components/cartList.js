@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { add, subtract, removeItem } from "../actions/action";
+import { add, subtract, removeItemFromCart } from "../actions/action";
 
 class CartList extends Component {
   add = (e, itemname) => {
@@ -12,13 +12,14 @@ class CartList extends Component {
     this.props.dispatch(subtract(itemname));
   };
 
-  removeItem = (e, itemname, amount) => {
+  removeItemFromCart = (e, itemname, amount) => {
     console.log("amount", amount);
-    this.props.dispatch(removeItem(itemname, amount));
+    this.props.dispatch(removeItemFromCart(itemname, amount));
   };
 
   render() {
     const { cart } = this.props;
+
     const cartList = cart.map((i, j) => {
       return (
         <div className="col-xs-4 col-md-3" data-cart-product key={j}>
@@ -29,17 +30,21 @@ class CartList extends Component {
                 {i.price}*{i.cartCount}={i.price * i.cartCount}
               </p>
               <div className="number">
-                <button onClick={e => this.subtract(e, i.itemname)}>-</button>
+                <button onClick={(e) => this.subtract(e, i.itemname)}>-</button>
                 <button>{i.cartCount}</button>
-                <button onClick={e => this.add(e, i.itemname)}>+</button>
+                <button onClick={(e) => this.add(e, i.itemname)}>+</button>
                 <br />
-                {/* <button
-                  onClick={e =>
-                    this.removeItem(e, i.itemname, i.price * i.cartCount)
+                <button
+                  onClick={(e) =>
+                    this.removeItemFromCart(
+                      e,
+                      i.itemname,
+                      i.price * i.cartCount
+                    )
                   }
                 >
                   Remove
-                </button> */}
+                </button>
               </div>
             </div>
           </div>
@@ -50,10 +55,10 @@ class CartList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   item: state.products.item,
   cart: state.products.cart,
-  total: state.products.total
+  total: state.products.total,
 });
 
 export default connect(mapStateToProps)(CartList);
